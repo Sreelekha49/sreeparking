@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vehicles & Registration | Sreelekha Parking System</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="app-nav"></div>
+
+  <main class="container">
+    <div class="page-head">
+      <div>
+        <p class="eyebrow">REGISTRATION & INTAKE</p>
+        <h1>Vehicle Management</h1>
+        <p class="muted">Register incoming customer vehicles, assign parking bays, and track active fleet status.</p>
+      </div>
+    </div>
+
+    <!-- Intake & Slot Allocation Form -->
+    <section class="panel">
+      <div class="section-title">
+        <div>
+          <h2>Register Vehicle & Allocate Slot</h2>
+          <p class="muted">System can automatically find the nearest matching slot or let you choose manually.</p>
+        </div>
+      </div>
+
+      <form id="vehicleForm" class="form-grid">
+        <div class="form-group">
+          <label>Owner Full Name *</label>
+          <input name="name" required placeholder="e.g. Ramesh Kumar">
+        </div>
+
+        <div class="form-group">
+          <label>Phone Number *</label>
+          <input name="phone" required placeholder="e.g. 9848022334">
+        </div>
+
+        <div class="form-group">
+          <label>Email Address *</label>
+          <input name="email" type="email" required placeholder="e.g. ramesh@example.com">
+        </div>
+
+        <div class="form-group">
+          <label>Vehicle Plate Number *</label>
+          <input name="vehicleNumber" id="vehicleNumberInput" required placeholder="e.g. AP 09 CD 5678">
+        </div>
+
+        <div class="form-group">
+          <label>Vehicle Type *</label>
+          <select name="vehicleType" id="vehicleTypeSelect" onchange="updateAvailableSlotsDropdown()">
+            <option value="Car">Car (₹30/hr)</option>
+            <option value="Bike">Bike (₹15/hr)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Vehicle Model / Make *</label>
+          <input name="vehicleModel" required placeholder="e.g. Honda City / Royal Enfield">
+        </div>
+
+        <div class="form-group full">
+          <label>Parking Slot Selection</label>
+          <select name="slotId" id="slotSelect">
+            <option value="">⚡ Auto-assign best available slot</option>
+          </select>
+          <small class="muted" style="margin-top:4px;">Leave as Auto-assign to have the system assign the optimal space immediately.</small>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn primary" type="submit" id="submitBtn">🚗 Register & Assign Parking</button>
+          <span id="vehicleMessage" class="form-message"></span>
+        </div>
+      </form>
+    </section>
+
+    <!-- Registered Vehicles Database -->
+    <section class="panel">
+      <div class="section-title">
+        <div>
+          <h2>Registered Vehicles Directory</h2>
+          <p class="muted">List of all vehicles and their live parking states.</p>
+        </div>
+        <button class="btn outline" onclick="loadVehicles()">↻ Refresh</button>
+      </div>
+
+      <!-- Search & Filters -->
+      <div class="filter-bar">
+        <input 
+          type="text" 
+          id="vehicleSearch" 
+          class="search-input" 
+          placeholder="🔍 Search plate number, owner name, phone or model..." 
+          oninput="handleSearch()"
+        >
+        <div class="filter-pills">
+          <button class="pill-btn active" onclick="setFilter('all', this)">All</button>
+          <button class="pill-btn" onclick="setFilter('parked', this)">Currently Parked</button>
+          <button class="pill-btn" onclick="setFilter('not-parked', this)">Not Parked</button>
+        </div>
+      </div>
+
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Vehicle Plate</th>
+              <th>Type & Model</th>
+              <th>Owner Details</th>
+              <th>Current Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="vehicleRows">
+            <tr><td colspan="6" style="text-align:center; padding:24px;">Loading vehicles...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal for Receipt Ticket -->
+  <div id="receiptModal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-head">
+        <h3 style="font-size:17px; font-weight:700;">Parking Bill & Receipt</h3>
+        <button class="modal-close" onclick="closeReceiptModal()">&times;</button>
+      </div>
+      <div id="receiptBody"></div>
+      <div class="modal-actions" style="display:flex; justify-content:flex-end; gap:10px; margin-top:16px;">
+        <button class="btn outline" onclick="closeReceiptModal()">Close</button>
+        <button class="btn primary" onclick="window.print()">🖨️ Print Receipt</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="app-footer"></div>
+
+  <script src="js/main.js"></script>
+  <script src="js/vehicles.js"></script>
+</body>
+</html>

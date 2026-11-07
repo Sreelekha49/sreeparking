@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | Sreelekha Parking System</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="app-nav"></div>
+
+  <main class="container">
+    <div class="page-head">
+      <div>
+        <p class="eyebrow">FACILITY OVERVIEW</p>
+        <h1>Operational Dashboard</h1>
+        <p class="muted">Live monitoring of parking spaces, active vehicles, and revenue collection.</p>
+      </div>
+      <div style="display:flex; gap:10px;">
+        <a class="btn primary" href="vehicles.html">+ Park Vehicle</a>
+        <button class="btn outline" onclick="loadDashboard()">↻ Refresh</button>
+      </div>
+    </div>
+
+    <!-- KPI Metric Cards -->
+    <div class="grid four">
+      <article class="stat highlight">
+        <span>Total Capacity</span>
+        <strong id="totalSlots">—</strong>
+        <small>Configured parking bays</small>
+      </article>
+      <article class="stat success">
+        <span>Available Bays</span>
+        <strong id="availableSlots">—</strong>
+        <small>Ready for incoming vehicles</small>
+      </article>
+      <article class="stat">
+        <span>Occupied Bays</span>
+        <strong id="occupiedSlots">—</strong>
+        <small id="occupancyRate">—% utilization</small>
+      </article>
+      <article class="stat highlight">
+        <span>Revenue Collected</span>
+        <strong id="revenue">₹0.00</strong>
+        <small id="completedCount">— completed sessions</small>
+      </article>
+    </div>
+
+    <!-- Utilization Progress Bar -->
+    <div class="panel" style="margin-top: 24px;">
+      <div class="section-title">
+        <div>
+          <h2>Facility Occupancy Rate</h2>
+          <p class="muted">Visual breakdown of slot states across all floors.</p>
+        </div>
+        <span id="occupancyBadge" class="status Active">Calculating...</span>
+      </div>
+      <div class="progress-container">
+        <div class="progress-labels">
+          <span id="progressAvailLabel">Available: 0</span>
+          <span id="progressOccLabel">Occupied: 0</span>
+          <span id="progressMaintLabel">Maintenance: 0</span>
+        </div>
+        <div class="progress-track">
+          <div id="barAvailable" class="progress-bar-available" style="width: 0%"></div>
+          <div id="barOccupied" class="progress-bar-occupied" style="width: 0%"></div>
+          <div id="barMaintenance" class="progress-bar-maintenance" style="width: 0%"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Activity Table -->
+    <section class="panel">
+      <div class="section-title">
+        <div>
+          <h2>Recent Parking Movements</h2>
+          <p class="muted">Latest entries, active parking sessions, and exits.</p>
+        </div>
+        <a class="btn outline sm" href="parking-records.html">View All Records →</a>
+      </div>
+
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Ticket #</th>
+              <th>Vehicle</th>
+              <th>Owner</th>
+              <th>Assigned Slot</th>
+              <th>Entry Time</th>
+              <th>Exit Time</th>
+              <th>Fee</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="recentRows">
+            <tr><td colspan="9" style="text-align:center; padding:30px;">Loading live records...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal for Receipt Ticket -->
+  <div id="receiptModal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-head">
+        <h3 style="font-size:17px; font-weight:700;">Parking Bill & Receipt</h3>
+        <button class="modal-close" onclick="closeReceiptModal()">&times;</button>
+      </div>
+      <div id="receiptBody">
+        <!-- Rendered dynamically -->
+      </div>
+      <div class="modal-actions" style="display:flex; justify-content:flex-end; gap:10px; margin-top:16px;">
+        <button class="btn outline" onclick="closeReceiptModal()">Close</button>
+        <button class="btn primary" onclick="window.print()">🖨️ Print Receipt</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="app-footer"></div>
+
+  <script src="js/main.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

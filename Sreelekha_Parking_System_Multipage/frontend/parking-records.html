@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parking Records & Billing | Sreelekha Parking System</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="app-nav"></div>
+
+  <main class="container">
+    <div class="page-head">
+      <div>
+        <p class="eyebrow">AUDIT & BILLING LOG</p>
+        <h1>Parking Records & Receipts</h1>
+        <p class="muted">Check out active parked vehicles, compute parking durations, and generate tax invoices.</p>
+      </div>
+      <div style="display:flex; gap:10px;">
+        <button class="btn outline" onclick="loadRecords()">↻ Refresh</button>
+      </div>
+    </div>
+
+    <!-- Pricing Policy Banner -->
+    <div class="panel" style="background:#eff6ff; border-color:#bfdbfe; padding:16px 20px; margin-bottom:20px;">
+      <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <span style="font-size:24px;">🏷️</span>
+          <div>
+            <b style="color:#1e3a8a; font-size:14px;">Automated Billing Policy:</b>
+            <div style="font-size:12px; color:#3b82f6;">
+              🚗 Cars: ₹30.00 / hour &bull; 🏍️ Bikes: ₹15.00 / hour &bull; Minimum billing 1 hour, fractional hours round up.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter & Search Bar -->
+    <section class="panel">
+      <div class="filter-bar">
+        <input 
+          type="text" 
+          id="recordSearch" 
+          class="search-input" 
+          placeholder="🔍 Search ticket #, plate number, owner name or slot..." 
+          oninput="handleRecordSearch()"
+        >
+        <div class="filter-pills" id="recordStatusPills">
+          <button class="pill-btn active" onclick="filterRecordStatus('All', this)">All Records</button>
+          <button class="pill-btn" onclick="filterRecordStatus('Active', this)">🟢 Active (Parked Now)</button>
+          <button class="pill-btn" onclick="filterRecordStatus('Completed', this)">🧾 Completed</button>
+        </div>
+      </div>
+
+      <!-- Records Table -->
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Ticket #</th>
+              <th>Vehicle</th>
+              <th>Owner</th>
+              <th>Slot</th>
+              <th>Entry Time</th>
+              <th>Exit Time</th>
+              <th>Duration</th>
+              <th>Fee</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="recordRows">
+            <tr><td colspan="10" style="text-align:center; padding:24px;">Loading parking history...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal for Receipt Ticket -->
+  <div id="receiptModal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-head">
+        <h3 style="font-size:17px; font-weight:700;">Parking Bill & Receipt</h3>
+        <button class="modal-close" onclick="closeReceiptModal()">&times;</button>
+      </div>
+      <div id="receiptBody"></div>
+      <div class="modal-actions" style="display:flex; justify-content:flex-end; gap:10px; margin-top:16px;">
+        <button class="btn outline" onclick="closeReceiptModal()">Close</button>
+        <button class="btn primary" onclick="window.print()">🖨️ Print Receipt</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="app-footer"></div>
+
+  <script src="js/main.js"></script>
+  <script src="js/parking.js"></script>
+</body>
+</html>

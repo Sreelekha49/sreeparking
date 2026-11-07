@@ -1,0 +1,20 @@
+{
+  "name": "sreelekha-parking-system",
+  "version": "1.0.0",
+  "description": "Sreelekha Intelligent Parking Lot Management System - Academic Mini Project",
+  "scripts": {
+    "start": "node backend/server.js",
+    "backend": "cd backend && npm start",
+    "dev": "cd backend && npm run dev",
+    "install:all": "cd backend && npm install"
+  },
+  "keywords": [
+    "parking",
+    "management",
+    "express",
+    "mysql",
+    "javascript"
+  ],
+  "author": "Sreelekha",
+  "license": "ISC"
+}

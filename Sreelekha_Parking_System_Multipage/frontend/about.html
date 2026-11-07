@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Project | Sreelekha Parking System</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="app-nav"></div>
+
+  <main class="container narrow">
+    <div class="page-head">
+      <div>
+        <p class="eyebrow">PROJECT DOCUMENTATION</p>
+        <h1>About Sreelekha Parking System</h1>
+        <p class="muted">Technical overview, design specifications, and database schema documentation.</p>
+      </div>
+    </div>
+
+    <!-- Project Overview -->
+    <section class="panel">
+      <h2>Project Abstract</h2>
+      <p style="margin-top:8px; line-height:1.7;">
+        The <b>Sreelekha Parking Lot Management System</b> is a full-stack multipage web application built for managing vehicle parking operations, slot allocation, duration tracking, and checkout fee calculations in parking facilities, commercial complexes, and academic institutions.
+      </p>
+
+      <h3 style="margin-top:20px; font-size:16px;">Core Project Objectives</h3>
+      <ul style="margin:12px 0 0 20px; line-height:1.8; color:#334155;">
+        <li>Automate vehicle intake and owner registration with relational integrity.</li>
+        <li>Dynamically allocate compatible parking slots (Cars vs Bikes vs Any).</li>
+        <li>Track real-time slot occupancy across multiple zones and floors (Ground Floor, Basement, Upper Levels).</li>
+        <li>Accurately log entry and exit timestamps using MySQL timestamp functions.</li>
+        <li>Calculate duration-based parking charges with automated ceiling rounding.</li>
+        <li>Generate professional printable parking tickets and tax invoices upon exit.</li>
+      </ul>
+    </section>
+
+    <!-- Database Schema Specification -->
+    <section class="panel">
+      <h2>Relational Database Schema (MySQL)</h2>
+      <p class="muted" style="margin-top:4px;">The system implements four normalized relational tables with foreign key constraints:</p>
+
+      <div style="margin-top:16px; display:flex; flex-direction:column; gap:16px;">
+        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:16px;">
+          <b style="color:#0f172a;">1. Table: <code>users</code></b>
+          <p style="font-size:12px; color:#64748b; margin-top:4px;">Stores system administrators, security operators, and customers.</p>
+          <code style="display:block; background:#ffffff; border:1px solid #cbd5e1; border-radius:6px; padding:8px 12px; margin-top:8px; font-size:12px; color:#2563eb;">
+            user_id (INT PK), name (VARCHAR), phone (VARCHAR), email (VARCHAR UNIQUE), role (ENUM)
+          </code>
+        </div>
+
+        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:16px;">
+          <b style="color:#0f172a;">2. Table: <code>parking_slots</code></b>
+          <p style="font-size:12px; color:#64748b; margin-top:4px;">Physical parking bays with vehicle compatibility, floor location, and live status.</p>
+          <code style="display:block; background:#ffffff; border:1px solid #cbd5e1; border-radius:6px; padding:8px 12px; margin-top:8px; font-size:12px; color:#2563eb;">
+            slot_id (INT PK), slot_number (VARCHAR UNIQUE), vehicle_type (ENUM), location (VARCHAR), status (ENUM)
+          </code>
+        </div>
+
+        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:16px;">
+          <b style="color:#0f172a;">3. Table: <code>vehicles</code></b>
+          <p style="font-size:12px; color:#64748b; margin-top:4px;">Customer vehicle registrations linked to owners.</p>
+          <code style="display:block; background:#ffffff; border:1px solid #cbd5e1; border-radius:6px; padding:8px 12px; margin-top:8px; font-size:12px; color:#2563eb;">
+            vehicle_id (INT PK), user_id (INT FK), vehicle_number (VARCHAR UNIQUE), vehicle_type (ENUM), vehicle_model (VARCHAR)
+          </code>
+        </div>
+
+        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:16px;">
+          <b style="color:#0f172a;">4. Table: <code>parking_records</code></b>
+          <p style="font-size:12px; color:#64748b; margin-top:4px;">Comprehensive transaction log recording bay assignment, duration, fees, and completion.</p>
+          <code style="display:block; background:#ffffff; border:1px solid #cbd5e1; border-radius:6px; padding:8px 12px; margin-top:8px; font-size:12px; color:#2563eb;">
+            record_id (INT PK), vehicle_id (INT FK), slot_id (INT FK), entry_time (DATETIME), exit_time (DATETIME), parking_fee (DECIMAL), status (ENUM)
+          </code>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing Policy -->
+    <section class="panel">
+      <h2>Tariff Rules & Billing Algorithm</h2>
+      <div class="grid two" style="margin-top:16px;">
+        <div style="border:1px solid #e2e8f0; border-radius:8px; padding:16px; text-align:center;">
+          <div style="font-size:32px;">🚗</div>
+          <h3 style="font-size:18px; margin:8px 0 4px;">Four-Wheeler (Car)</h3>
+          <b style="font-size:22px; color:#2563eb;">₹30.00 / hour</b>
+          <p class="muted" style="margin-top:6px;">Applicable to cars, SUVs, and sedans.</p>
+        </div>
+
+        <div style="border:1px solid #e2e8f0; border-radius:8px; padding:16px; text-align:center;">
+          <div style="font-size:32px;">🏍️</div>
+          <h3 style="font-size:18px; margin:8px 0 4px;">Two-Wheeler (Bike)</h3>
+          <b style="font-size:22px; color:#10b981;">₹15.00 / hour</b>
+          <p class="muted" style="margin-top:6px;">Applicable to motorcycles, scooters, and mopeds.</p>
+        </div>
+      </div>
+
+      <div style="background:#fffbeb; border:1px solid #fde68a; border-radius:8px; padding:14px; margin-top:16px; font-size:13px; color:#92400e;">
+        <b>Calculation Formula:</b> <code>Fee = GREATEST(1, CEIL(Elapsed_Minutes / 60)) &times; Hourly_Rate</code><br>
+        Minimum billing duration is 1 hour. Any started hour is rounded up to the nearest whole hour.
+      </div>
+    </section>
+
+    <!-- Tech Stack -->
+    <section class="panel">
+      <h2>Technology Stack</h2>
+      <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;">
+        <span class="status Active">HTML5 & CSS3</span>
+        <span class="status Active">Vanilla JavaScript (ES6+)</span>
+        <span class="status Active">Node.js (v26)</span>
+        <span class="status Active">Express.js (v4)</span>
+        <span class="status Active">MySQL Server 8.0</span>
+        <span class="status Active">mysql2 / promise Pool</span>
+      </div>
+    </section>
+  </main>
+
+  <div id="app-footer"></div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

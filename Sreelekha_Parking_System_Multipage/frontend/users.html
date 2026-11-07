@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Users & Customers | Sreelekha Parking System</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="app-nav"></div>
+
+  <main class="container">
+    <div class="page-head">
+      <div>
+        <p class="eyebrow">ACCOUNTS & DIRECTORY</p>
+        <h1>Registered Users & Customers</h1>
+        <p class="muted">Manage system users, customer profiles, security staff, and administrators.</p>
+      </div>
+      <div style="display:flex; gap:10px;">
+        <button class="btn primary" onclick="toggleAddUserForm()">+ Add User</button>
+        <button class="btn outline" onclick="loadUsers()">↻ Refresh</button>
+      </div>
+    </div>
+
+    <!-- Add User Form (Collapsible) -->
+    <section class="panel" id="addUserPanel" style="display:none; margin-bottom:24px;">
+      <div class="section-title">
+        <h2>Register New User Account</h2>
+        <button class="btn outline sm" onclick="toggleAddUserForm()">Cancel</button>
+      </div>
+
+      <form id="addUserForm" class="form-grid" onsubmit="submitAddUser(event)">
+        <div class="form-group">
+          <label>Full Name *</label>
+          <input name="name" required placeholder="e.g. Ananya Sen">
+        </div>
+
+        <div class="form-group">
+          <label>Phone Number *</label>
+          <input name="phone" required placeholder="e.g. 9876543210">
+        </div>
+
+        <div class="form-group">
+          <label>Email Address *</label>
+          <input name="email" type="email" required placeholder="e.g. ananya@example.com">
+        </div>
+
+        <div class="form-group">
+          <label>Role *</label>
+          <select name="role">
+            <option value="Customer">Customer</option>
+            <option value="Security Staff">Security Staff</option>
+            <option value="Admin">Admin</option>
+          </select>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn primary" type="submit">Create User Account</button>
+          <span id="userFormMsg" class="form-message"></span>
+        </div>
+      </form>
+    </section>
+
+    <!-- Users List Table -->
+    <section class="panel">
+      <div class="section-title">
+        <div>
+          <h2>System Directory</h2>
+          <p class="muted">All verified customer accounts, security personnel, and administrators.</p>
+        </div>
+        <input 
+          type="text" 
+          id="userSearch" 
+          class="search-input" 
+          placeholder="🔍 Search users by name, phone or email..." 
+          oninput="renderUsers()"
+          style="max-width:300px;"
+        >
+      </div>
+
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>User ID</th>
+              <th>Full Name</th>
+              <th>Role</th>
+              <th>Phone Number</th>
+              <th>Email Address</th>
+              <th>Vehicles Owned</th>
+              <th>Parking Sessions</th>
+            </tr>
+          </thead>
+          <tbody id="userRows">
+            <tr><td colspan="7" style="text-align:center; padding:24px;">Loading accounts...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <div id="app-footer"></div>
+
+  <script src="js/main.js"></script>
+  <script src="js/users.js"></script>
+</body>
+</html>
